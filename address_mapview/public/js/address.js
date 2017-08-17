@@ -28,9 +28,9 @@ render_map_view = function(lat, lon, name) {
 	}).addTo(mymap);
 
 	var marker = L.marker([lat,lon]).addTo(mymap);
-	//Refresh map
+	//Save doc to refresh map
 	$('.refresh_map').on("click", function() {
-		cur_frm.reload_doc()
+		cur_frm.save()
 	})
 	//marker.bindPopup("<b>"+name+"</b>").openPopup();
 }

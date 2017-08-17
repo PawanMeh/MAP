@@ -39,7 +39,7 @@
  {
   "allow_on_submit": 0, 
   "bold": 0, 
-  "collapsible": 1, 
+  "collapsible": 0, 
   "collapsible_depends_on": null, 
   "default": null, 
   "depends_on": null, 
