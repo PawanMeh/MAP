@@ -30,7 +30,10 @@ render_map_view = function(lat, lon, name) {
 	var marker = L.marker([lat,lon]).addTo(mymap);
 	//Save doc to refresh map
 	$('.refresh_map').on("click", function() {
-		cur_frm.save()
+		cur_frm.save();
+		setTimeout(function () {
+			$('[data-fieldname=latitude]')[0].scrollIntoView(true);
+		}, 1000);
 	})
 	//marker.bindPopup("<b>"+name+"</b>").openPopup();
 }
