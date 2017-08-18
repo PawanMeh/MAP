@@ -1,18 +1,29 @@
 frappe.ui.form.on("Address", {
 	onload: function(frm) {
-		render_map_view(frm.doc.latitude, frm.doc.longitute, frm.doc.address_title)
-		//render_map_view(frm.doc.latitude, frm.doc.longitute, frm.doc.address_title)
+		if(!frm.doc.__islocal)
+			render_map_view(frm.doc.latitude, frm.doc.longitute, frm.doc.address_title)
 	},
 
 	validate: function(frm) {
 		render_map_view(frm.doc.latitude, frm.doc.longitute, frm.doc.address_title)
+	},
+	display_map: function(frm) {
+		render_map_view(frm.doc.latitude, frm.doc.longitute, frm.doc.address_title)
+		frm.save();
+		setTimeout(function () {
+			$('[data-fieldname=latitude]')[0].scrollIntoView(true);
+		}, 1000);
 	}
 })
 
 render_map_view = function(lat, lon, name) {
-	if(!lon || !lat)
-		return
-
+	if(!lon || !lat) {
+		$("#mapid").remove();
+		html = $(frappe.render_template("map_view"))
+		$(cur_frm.fields_dict.map_view.wrapper).html(html);
+		cur_frm.refresh_field("map_view");
+		return;
+	}
 	$("#mapid").remove();
 	html = $(frappe.render_template("map_view"))
 	$(cur_frm.fields_dict.map_view.wrapper).html(html);
@@ -28,12 +39,5 @@ render_map_view = function(lat, lon, name) {
 	}).addTo(mymap);
 
 	var marker = L.marker([lat,lon]).addTo(mymap);
-	//Save doc to refresh map
-	$('.refresh_map').on("click", function() {
-		cur_frm.save();
-		setTimeout(function () {
-			$('[data-fieldname=latitude]')[0].scrollIntoView(true);
-		}, 1000);
-	})
-	//marker.bindPopup("<b>"+name+"</b>").openPopup();
+	cur_frm.refresh_field("map_view");
 }

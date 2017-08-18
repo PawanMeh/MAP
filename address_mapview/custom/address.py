@@ -19,3 +19,5 @@ def get_lat_lon(doc, method):
 		address = address[0:-1] if address[-1] == "+" else address
 		if get_latitude_longitude(address):
 			doc.latitude, doc.longitute = get_latitude_longitude(address)
+		else:
+			frappe.msgprint("Unable to find latitude, longitude. Please enter it manually.")
